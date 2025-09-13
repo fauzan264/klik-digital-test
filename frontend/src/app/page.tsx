@@ -33,14 +33,14 @@ export default function Home() {
   });
   return (
     <div className="min-h-screen flex items-center justify-center mt-15">
-      <div className="card card-border card-md bg-teal-100 shadow-sm p-5 rounded-xl">
+      <div className="card card-border card-md bg-teal-700 shadow-sm p-5 rounded-xl">
         <div className="card-body">
-          <div className="card-title justify-center text-gray-800">Login</div>
+          <div className="card-title justify-center text-gray-200">Login</div>
           <form onSubmit={formik.handleSubmit}>
             <div className="flex flex-wrap">
               <div className="w-full">
                 <fieldset className="fieldset">
-                  <legend className="fieldset-legend text-gray-800">
+                  <legend className="fieldset-legend text-gray-200">
                     Username
                   </legend>
                   <label className="input input-accent validator w-full">
@@ -53,7 +53,7 @@ export default function Home() {
                     />
                   </label>
                   {formik.errors.username && formik.touched.username && (
-                    <div className="feedback text-red-600">
+                    <div className="feedback text-red-400">
                       {formik.errors.username}
                     </div>
                   )}
@@ -61,7 +61,7 @@ export default function Home() {
               </div>
               <div className="w-full">
                 <fieldset className="fieldset">
-                  <legend className="fieldset-legend text-gray-800">
+                  <legend className="fieldset-legend text-gray-200">
                     Password
                   </legend>
                   <label className="input input-accent validator w-full">
@@ -74,7 +74,7 @@ export default function Home() {
                     />
                   </label>
                   {formik.errors.password && formik.touched.password && (
-                    <div className="feedback text-red-600">
+                    <div className="feedback text-red-400">
                       {formik.errors.password}
                     </div>
                   )}
@@ -82,7 +82,7 @@ export default function Home() {
               </div>
               <button
                 type="submit"
-                className="btn border-0 bg-teal-500 hover:bg-teal-600 active:bg-teal-600 transition ease-in-out duration-300 text-gray-100 w-full mt-5 focus:outline-none"
+                className="btn border-0 bg-teal-400 hover:bg-teal-300 active:bg-teal-600 transition ease-in-out duration-300 text-gray-100 w-full mt-5 focus:outline-none"
               >
                 Login
               </button>

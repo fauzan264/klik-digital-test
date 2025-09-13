@@ -1,103 +1,95 @@
-import Image from "next/image";
+"use client";
+import { loginSchema } from "@/features/auth/schemas/loginSchema";
+import useAuthStore from "@/store/useAuthStore";
+import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+
+const VALID_USER = "admin";
+const VALID_PASS = "pass123";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const router = useRouter();
+  const { setAuth } = useAuthStore();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const onLogin = ({ username, password }: IAuthLogin) => {
+    if (username == VALID_USER && password == VALID_PASS) {
+      setAuth({ username });
+      router.push("/admin");
+    } else {
+      toast.error("Invalid username or password");
+    }
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: loginSchema,
+    onSubmit: ({ username, password }) => {
+      onLogin({ username, password });
+    },
+  });
+  return (
+    <div className="min-h-screen flex items-center justify-center mt-15">
+      <div className="card card-border card-md bg-teal-100 shadow-sm p-5 rounded-xl">
+        <div className="card-body">
+          <div className="card-title justify-center text-gray-800">Login</div>
+          <form onSubmit={formik.handleSubmit}>
+            <div className="flex flex-wrap">
+              <div className="w-full">
+                <fieldset className="fieldset">
+                  <legend className="fieldset-legend text-gray-800">
+                    Username
+                  </legend>
+                  <label className="input input-accent validator w-full">
+                    <input
+                      type="text"
+                      name="username"
+                      id="username"
+                      onChange={formik.handleChange}
+                      value={formik.values.username}
+                    />
+                  </label>
+                  {formik.errors.username && formik.touched.username && (
+                    <div className="feedback text-red-600">
+                      {formik.errors.username}
+                    </div>
+                  )}
+                </fieldset>
+              </div>
+              <div className="w-full">
+                <fieldset className="fieldset">
+                  <legend className="fieldset-legend text-gray-800">
+                    Password
+                  </legend>
+                  <label className="input input-accent validator w-full">
+                    <input
+                      type="password"
+                      name="password"
+                      id="password"
+                      onChange={formik.handleChange}
+                      value={formik.values.password}
+                    />
+                  </label>
+                  {formik.errors.password && formik.touched.password && (
+                    <div className="feedback text-red-600">
+                      {formik.errors.password}
+                    </div>
+                  )}
+                </fieldset>
+              </div>
+              <button
+                type="submit"
+                className="btn border-0 bg-teal-500 hover:bg-teal-600 active:bg-teal-600 transition ease-in-out duration-300 text-gray-100 w-full mt-5 focus:outline-none"
+              >
+                Login
+              </button>
+            </div>
+          </form>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
   );
 }

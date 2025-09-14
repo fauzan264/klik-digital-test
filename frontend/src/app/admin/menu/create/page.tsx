@@ -9,17 +9,16 @@ import { toast } from "react-toastify";
 
 export default function CreateMenuPage() {
   const router = useRouter();
-  const { addMenu, menus } = useMenuStore();
+  const { addMenu } = useMenuStore();
 
   const formik = useFormik({
     initialValues: {
       title: "",
       href: "",
-      parentId: "",
     },
     validationSchema: menuSchema,
-    onSubmit: ({ title, href, parentId }: Omit<IMenu, "id">) => {
-      addMenu({ title, href, parentId });
+    onSubmit: ({ title, href }: Omit<IMenu, "id">) => {
+      addMenu({ title, href });
       toast.info("Menu created successfully.");
       router.push("/admin/menu");
     },
@@ -78,34 +77,6 @@ export default function CreateMenuPage() {
                   {formik.errors.href && formik.touched.href && (
                     <div className="feedback text-red-400">
                       {formik.errors.href}
-                    </div>
-                  )}
-                </fieldset>
-              </div>
-              <div className="w-full">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend text-gray-200">
-                    Parent Menu (List Only Parent)
-                  </legend>
-                  <select
-                    name="parentId"
-                    id="parentId"
-                    className="select select-accent w-full"
-                    onChange={formik.handleChange}
-                    value={formik.values.parentId ?? ""}
-                  >
-                    <option value="">Root</option>
-                    {menus
-                      .filter((menu) => !menu.parentId)
-                      .map((menu) => (
-                        <option key={menu.id} value={menu.id}>
-                          {menu.title}
-                        </option>
-                      ))}
-                  </select>
-                  {formik.errors.parentId && formik.touched.parentId && (
-                    <div className="feedback text-red-400">
-                      {formik.errors.parentId}
                     </div>
                   )}
                 </fieldset>

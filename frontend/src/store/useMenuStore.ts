@@ -34,9 +34,7 @@ const useMenuStore = create<IUseMenuStore>()(
         })),
       deleteMenu: (id) => {
         set((state) => ({
-          menus: state.menus.filter((m) => {
-            m.id !== id;
-          }),
+          menus: state.menus.filter((m) => m.id !== id),
         }));
       },
       getMenuById: (id) => {

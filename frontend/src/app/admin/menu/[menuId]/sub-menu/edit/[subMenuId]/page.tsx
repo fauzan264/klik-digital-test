@@ -8,31 +8,32 @@ import { FaLink } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 
-export default function EditMenuPage() {
-  const { id } = useParams<{ id: string }>();
+export default function EditSubMenuPage() {
+  const { menuId, subMenuId } = useParams<{
+    menuId: string;
+    subMenuId: string;
+  }>();
   const router = useRouter();
-  const { updateMenu, getMenuById, menus } = useMenuStore();
+  const { updateMenu, getMenuById } = useMenuStore();
 
   const formik = useFormik({
     initialValues: {
       title: "",
       href: "",
-      parentId: "",
     },
     validationSchema: menuSchema,
-    onSubmit: ({ title, href, parentId }: Omit<IMenu, "id">) => {
-      updateMenu(id, { title, href, parentId });
-      toast.info("Menu updated successfully.");
-      router.push("/admin/menu");
+    onSubmit: ({ title, href }: Omit<IMenu, "id">) => {
+      updateMenu(subMenuId, { title, href, parentId: menuId });
+      toast.info("Sub Menu updated successfully.");
+      router.push(`/admin/menu/${menuId}`);
     },
   });
 
   useEffect(() => {
-    const getDetailMenu = getMenuById(id);
+    const getDetailMenu = getMenuById(subMenuId);
     formik.setValues({
       title: getDetailMenu?.title || "",
       href: getDetailMenu?.href || "",
-      parentId: getDetailMenu?.parentId || "",
     });
   }, []);
 
@@ -89,34 +90,6 @@ export default function EditMenuPage() {
                   {formik.errors.href && formik.touched.href && (
                     <div className="feedback text-red-400">
                       {formik.errors.href}
-                    </div>
-                  )}
-                </fieldset>
-              </div>
-              <div className="w-full">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend text-gray-200">
-                    Parent Menu (List Only Parent)
-                  </legend>
-                  <select
-                    name="parentId"
-                    id="parentId"
-                    className="select select-accent w-full"
-                    onChange={formik.handleChange}
-                    value={formik.values.parentId ?? ""}
-                  >
-                    <option value="">Root</option>
-                    {menus
-                      .filter((menu) => !menu.parentId)
-                      .map((menu) => (
-                        <option key={menu.id} value={menu.id}>
-                          {menu.title}
-                        </option>
-                      ))}
-                  </select>
-                  {formik.errors.parentId && formik.touched.parentId && (
-                    <div className="feedback text-red-400">
-                      {formik.errors.parentId}
                     </div>
                   )}
                 </fieldset>

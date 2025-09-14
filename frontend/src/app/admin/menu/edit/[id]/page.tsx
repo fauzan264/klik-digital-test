@@ -22,7 +22,7 @@ export default function EditMenuPage() {
     validationSchema: menuSchema,
     onSubmit: ({ title, href, parentId }: Omit<IMenu, "id">) => {
       updateMenu(id, { title, href, parentId });
-      toast.info("Menu created successfully.");
+      toast.info("Menu updated successfully.");
       router.push("/admin/menu");
     },
   });

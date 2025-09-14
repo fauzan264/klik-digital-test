@@ -8,7 +8,7 @@ import { FaLink } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 
-export default function EditMenuPage() {
+export default function EditSubMenuPage() {
   const { menuId, subMenuId } = useParams<{
     menuId: string;
     subMenuId: string;

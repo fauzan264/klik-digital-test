@@ -78,7 +78,6 @@ func validName(name string) bool {
 }
 
 func findDisappeared(nums []int) []int {
-	// var lost_number []int
 	var lengthNumber = len(nums)
 	var existNumbers []int
 	var missingNumbers []int

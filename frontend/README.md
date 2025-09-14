@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+---
+# Klik Digital Test
 
-## Getting Started
+## Description
 
-First, run the development server:
+A menu management application built with **Next.js**, using **Zustand** for state management and **DaisyUI/TailwindCSS** for UI.
+You can **create, read, update, and delete menus and sub-menus**.
+---
+
+## How to Run the Project
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/fauzan264/klik-digital-test.git
+cd klik-digital-test/frontend
+```
+
+2. **Install dependencies**
+
+```bash
+npm install
+```
+
+3. **Run the development server**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open your browser at `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Assumptions / Notes
 
-## Learn More
+- **Menu State**: Menus are stored on the client-side using Zustand. There is no backend; data will reset on page reload.
+- **Menu ID**: Each menu has a unique `id`. Default menus use fixed IDs; new menus use `nanoid` for unique IDs.
+- **Parent-Child Relation**: Menus with a non-null `parentId` are sub-menus of the corresponding parent menu.
+- **Authentication**: Login uses **hardcoded credentials**:
 
-To learn more about Next.js, take a look at the following resources:
+  - **Username**: `admin`
+  - **Password**: `pass123`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **UI Components**: Modals and other UI elements use DaisyUI.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Try the Demo
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+You can try the live demo here:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[https://klik-digital-test.vercel.app/](https://klik-digital-test.vercel.app/)
+
+Use the **hardcoded login credentials** to access the app.

@@ -1,9 +1,33 @@
 "use client";
 import useMenuStore from "@/store/useMenuStore";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export default function MenuPage() {
-  const { menus } = useMenuStore();
+  const { menus, deleteMenu } = useMenuStore();
+
+  const onDeleteMenu = ({ id }: { id: string }) => {
+    Swal.fire({
+      title: `Are you sure you want to delete the event?`,
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      confirmButtonText: "Delete",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        const count = menus.filter((menu) => menu.parentId == id).length;
+        if (count >= 1) {
+          toast.error(
+            "Cannot delete this menu because it still has sub menus. Please delete them first."
+          );
+        } else {
+          deleteMenu(id);
+          toast.success("Menu deleted successfully.");
+        }
+      }
+    });
+  };
 
   return (
     <div className="mx-auto w-11/12 my-10">
@@ -28,39 +52,40 @@ export default function MenuPage() {
                 </tr>
               </thead>
               <tbody>
-                {menus?.map((menu) => {
-                  return (
-                    <tr key={menu.id}>
-                      <td className="text-gray-200">{menu.title}</td>
-                      <td className="text-gray-200">{menu.href ?? "#"}</td>
-                      <td>
-                        <Link
-                          href={`/admin/menu/detail/${menu.id}`}
-                          className="btn btn-success btn-sm text-gray-200 hover:shadow-md mx-2 my-2"
-                        >
-                          Detail
-                        </Link>
-                        <Link
-                          href={`/admin/menu/edit/${menu.id}`}
-                          className="btn btn-info btn-sm text-gray-200 hover:shadow-md mx-2 my-2"
-                        >
-                          Edit
-                        </Link>
-                        {/* <button
-                          onClick={() => {
-                            onDeleteEvent({
-                              id: menu.id,
-                              eventName: event.eventName,
-                            });
-                          }}
-                          className="btn btn-error btn-sm text-gray-200 hover:shadow-md mx-2 my-2"
-                        >
-                          Delete
-                        </button> */}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {menus
+                  ?.filter((menu) => !menu.parentId)
+                  .map((menu) => {
+                    return (
+                      <tr key={menu.id}>
+                        <td className="text-gray-200">{menu.title}</td>
+                        <td className="text-gray-200">{menu.href ?? "#"}</td>
+                        <td>
+                          <Link
+                            href={`/admin/menu/${menu.id}`}
+                            className="btn btn-success btn-sm text-gray-200 hover:shadow-md mx-2 my-2"
+                          >
+                            Detail
+                          </Link>
+                          <Link
+                            href={`/admin/menu/edit/${menu.id}`}
+                            className="btn btn-info btn-sm text-gray-200 hover:shadow-md mx-2 my-2"
+                          >
+                            Edit
+                          </Link>
+                          <button
+                            onClick={() => {
+                              onDeleteMenu({
+                                id: menu.id,
+                              });
+                            }}
+                            className="btn btn-error btn-sm text-gray-200 hover:shadow-md mx-2 my-2"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>

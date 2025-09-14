@@ -8,15 +8,21 @@ import (
 
 func main() {
 	// 1. Name Validator
-	fmt.Println(validName("I. Tri"))
-	fmt.Println(validName("I. T. Septian"))
-	fmt.Println(validName("Ivan T. Septian"))
-	fmt.Println(validName("Ivan"))
-	fmt.Println(validName("i. Tri"))
-	fmt.Println(validName("I Tri"))
-	fmt.Println(validName("I. Tri Septian"))
-	fmt.Println(validName("I. Tri P."))
-	fmt.Println(validName("Ivan. Tri Septian"))
+	dataNames := []string{
+		"I. Tri",
+		"I. T. Septian",
+		"Ivan T. Septian",
+		"Ivan",
+		"i. Tri",
+		"I Tri",
+		"I. Tri Septian",
+		"I. Tri P.",
+		"Ivan. Tri Septian",
+	}
+
+	for _, dataName := range dataNames {
+		fmt.Println(validName(dataName))
+	}
 
   // 2. Find All Numbers Disappeared in an Array
 	fmt.Println(findDisappeared([]int{4,3,2,7,8,2,3,1}))
